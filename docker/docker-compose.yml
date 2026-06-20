@@ -1,0 +1,17 @@
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: neuralforge_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: neuralforge
+      POSTGRES_PASSWORD: neuralforge123
+      POSTGRES_DB: neuralforge_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
