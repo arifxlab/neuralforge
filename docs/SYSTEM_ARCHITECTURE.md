@@ -1,13 +1,16 @@
 User
 |
 V
-Frontend (React)
+Create Project
 |
 V
 Laravel Backend
 |
 V
-Agent Orchestrator
+Store Project
+|
+V
+Trigger AI Service
 |
 +-- Architect Agent
 |
@@ -15,10 +18,14 @@ Agent Orchestrator
 |
 +-- Security Agent
 |
-+-- PM Agent
+V
+Agent Outputs
 |
 V
 Blueprint Generator
 |
 V
-PostgreSQL
+Final Blueprint
+|
+V
+Frontend Dashboard
