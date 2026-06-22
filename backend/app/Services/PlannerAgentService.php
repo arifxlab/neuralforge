@@ -11,12 +11,12 @@ class PlannerAgentService
         $prompt = <<<PROMPT
 You are a senior software architect.
 
-Analyze this project.
+Analyze this project:
 
 Name: {$name}
 Description: {$description}
 
-Return ONLY valid JSON.
+Return ONLY valid JSON:
 
 {
   "goal": "string",
@@ -25,9 +25,12 @@ Return ONLY valid JSON.
   "estimated_complexity": "low|medium|high"
 }
 
-Do not add explanations.
-Do not use markdown.
-Do not wrap in code blocks.
+IMPORTANT:
+- Return ONLY JSON
+- No explanation
+- No markdown
+- No extra text
+
 PROMPT;
 
         $response = Http::timeout(120)
@@ -35,19 +38,16 @@ PROMPT;
                 'model' => 'llama3',
                 'prompt' => $prompt,
                 'stream' => false,
+                'options' => [
+                    'temperature' => 0.2
+                ]
             ]);
 
-        $content = $response->json('response');
+        $text = $response->json('response') ?? '';
 
-        $decoded = json_decode($content, true);
-
-        if (!$decoded) {
-            return [
-                'error' => 'Invalid JSON returned',
-                'raw_response' => $content
-            ];
-        }
-
-        return $decoded;
+        return json_decode($text, true) ?? [
+            'error' => 'Invalid JSON returned',
+            'raw_response' => $text
+        ];
     }
 }
